@@ -4,6 +4,7 @@ using YachtMarinaAPI.DAL;
 using YachtMarinaAPI.Dtos;
 using YachtMarinaAPI.Entities;
 using YachtMarinaAPI.Exceptions;
+using YachtMarinaAPI.Models;
 
 namespace YachtMarinaAPI.Services
 {
@@ -26,7 +27,7 @@ namespace YachtMarinaAPI.Services
         }
         public async Task Delete(int friendId)
         {
-            var user = await _context.Users.Include(u => u.Friends).FirstOrDefaultAsync(u => u.Id == _userContextService.LoggedUserId);
+            var user = GetUser((int)_userContextService.LoggedUserId);
 
             var friendOne = user.Friends.FirstOrDefault(f => f.Id == friendId);
 
@@ -48,14 +49,7 @@ namespace YachtMarinaAPI.Services
 
         public async Task<List<Friend>> GetAll()
         {
-            var user = _context.Users
-                .Include(u => u.Friends)
-                .FirstOrDefault(u => u.Id == _userContextService.LoggedUserId);
-
-            if (user == null)
-            {
-                throw new NotFoundException("Nie znaleziono uzytkownika");
-            }
+            var user = GetUser((int)_userContextService.LoggedUserId);
 
             var userDto = _mapper.Map<UserDto>(user);
 
@@ -63,5 +57,20 @@ namespace YachtMarinaAPI.Services
 
             return friends;
         }
+
+        private User GetUser(int id)
+        {
+            var user = _context.Users
+                .Include(u => u.Friends)
+                .FirstOrDefault(u => u.Id  == id);
+
+            if (user == null)
+            {
+                throw new NotFoundException("Nie znaleziono użytkownika");
+            }
+
+            return user;
+        }
+
     }
 }

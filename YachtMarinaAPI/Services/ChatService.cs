@@ -39,6 +39,7 @@ namespace YachtMarinaAPI.Services
         public async Task<int> CreatePrivateChat(int userId)
         {
             var user =  _context.Users.FirstOrDefault(u => u.Id==userId);
+
             var loggedUser =  _context.Users
                 .Include(u => u.Friends)
                 .FirstOrDefault(u => u.Id == _userContextService.LoggedUserId);
@@ -232,7 +233,8 @@ namespace YachtMarinaAPI.Services
         
         public async Task<List<ChatDto>> GetChatsForAdmins()
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == _userContextService.LoggedUserId);
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Id == _userContextService.LoggedUserId);
 
             if(user == null)
             {

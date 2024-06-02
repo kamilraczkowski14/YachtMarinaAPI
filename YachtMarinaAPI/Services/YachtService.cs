@@ -55,9 +55,7 @@ namespace YachtMarinaAPI.Services
 
         public async Task Delete(int id)
         {
-            var yacht = _context.Yachts
-                .Include(y => y.User)
-                .FirstOrDefault(y => y.Id == id);
+            var yacht = GetYacht(id);
 
             if (yacht == null)
             {
@@ -76,9 +74,7 @@ namespace YachtMarinaAPI.Services
         public async Task Edit(UpdateYachtDto dto)
         {
 
-            var yacht = _context.Yachts
-                .Include(y => y.User)
-                    .FirstOrDefault(y => y.Id == dto.Id);
+            var yacht = GetYacht(dto.Id);
 
             if (yacht == null)
             {
@@ -118,6 +114,16 @@ namespace YachtMarinaAPI.Services
             var yachtsDto = _mapper.Map<List<YachtDto>>(yachts);
 
             return yachtsDto;
+        }
+
+
+        private Yacht GetYacht(int id)
+        {
+            var yacht = _context.Yachts
+                .Include(y => y.User)
+                .FirstOrDefault(y => y.Id  == id);
+
+            return yacht;
         }
     }
 }

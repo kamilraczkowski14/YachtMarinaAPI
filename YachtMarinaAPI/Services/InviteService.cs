@@ -69,7 +69,7 @@ namespace YachtMarinaAPI.Services
 
 
             var existingInvite = _context.Invites
-    .FirstOrDefault(i => i.FromUserId == newInvite.FromUserId && i.ToUserId == newInvite.ToUserId);
+                .FirstOrDefault(i => i.FromUserId == newInvite.FromUserId && i.ToUserId == newInvite.ToUserId);
 
             if (existingInvite != null)
             {

@@ -144,7 +144,8 @@ namespace YachtMarinaAPI.Migrations
                     UserId = table.Column<int>(type: "int", nullable: false),
                     MessageText = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ChatId = table.Column<int>(type: "int", nullable: false),
-                    Time = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    isSeen = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

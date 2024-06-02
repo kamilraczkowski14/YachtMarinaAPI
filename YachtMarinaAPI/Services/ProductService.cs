@@ -36,10 +36,10 @@ namespace YachtMarinaAPI.Services
         }
 
         public async Task<int> Create(CreateProductDto dto)
-        { 
-            var user = _context.Users.FirstOrDefault(u => u.Id == _userContextService.LoggedUserId);
+        {
+            var user = GetUser((int)_userContextService.LoggedUserId);
 
-            if(user.RoleId != 8)
+            if (user.RoleId != 8)
             {
                 throw new ForbidException("Nie masz uprawnień");
             }
@@ -72,8 +72,7 @@ namespace YachtMarinaAPI.Services
 
         public async Task Update(UpdateProductDto dto)
         {
-
-            var user = _context.Users.FirstOrDefault(u => u.Id == _userContextService.LoggedUserId);
+            var user = GetUser((int)_userContextService.LoggedUserId);
 
             if ((user.RoleId != 7) && (user.RoleId != 8))
             {
@@ -111,7 +110,7 @@ namespace YachtMarinaAPI.Services
 
         public async Task Delete(int productId)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == _userContextService.LoggedUserId);
+            var user = GetUser((int)_userContextService.LoggedUserId);
 
             if ( (user.RoleId != 7) && (user.RoleId != 8) )
             {
@@ -178,6 +177,19 @@ namespace YachtMarinaAPI.Services
             };
 
             return result;
+        }
+
+        private User GetUser(int id)
+        {
+            var user = _context.Users
+                .FirstOrDefault(u => u.Id == id);
+
+            if (user == null)
+            {
+                throw new NotFoundException("Nie znaleziono użytkownika");
+            }
+
+            return user;
         }
     }
 }

@@ -35,7 +35,8 @@ namespace YachtMarinaAPI.Services
         {
             var newDocument = _mapper.Map<Document>(dto);
 
-            var user = _context.Users.FirstOrDefault(u => u.Id == _userContextService.LoggedUserId);
+            var user = _context.Users
+                .FirstOrDefault(u => u.Id == _userContextService.LoggedUserId);
 
             if (user == null)
             {
@@ -75,7 +76,7 @@ namespace YachtMarinaAPI.Services
 
         public async Task DenyDocument(int documentId)
         {
-            var document = _context.Documents.FirstOrDefault(d => d.Id == documentId);
+            var document = GetDocument(documentId);
 
             if (document == null)
             {
@@ -90,7 +91,7 @@ namespace YachtMarinaAPI.Services
 
         public async Task AcceptDocument(int documentId)
         {
-            var document = _context.Documents.FirstOrDefault(d => d.Id == documentId);
+            var document = GetDocument(documentId);
 
             if (document == null)
             {
@@ -143,6 +144,13 @@ namespace YachtMarinaAPI.Services
 
             return result;
 
+        }
+
+        private Document GetDocument(int documentId)
+        {
+            var document = _context.Documents.FirstOrDefault(u => u.Id == documentId);
+
+            return document;
         }
 
     }

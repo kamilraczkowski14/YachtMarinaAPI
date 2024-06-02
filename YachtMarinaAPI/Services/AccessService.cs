@@ -53,7 +53,6 @@ namespace YachtMarinaAPI.Services
         {
             var loggedUserId = _userContextService.LoggedUserId;
 
-
             var user = await _context.Users
             .Include(u => u.Role)
             .Include(u => u.Yachts)
@@ -309,8 +308,6 @@ namespace YachtMarinaAPI.Services
                 throw new BadRequestException("Aby zalogować się potwierdź rejestrację za" +
                     " pomocą linka wysłanego na adres e-mail");
             }
-            
-
             
             var yachtsDtos = _mapper.Map<List<YachtDto>>(user.Yachts);
             var journeysDtos = _mapper.Map<List<JourneyDto>>(user.Journeys);

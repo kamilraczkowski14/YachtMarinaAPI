@@ -12,8 +12,8 @@ using YachtMarinaAPI.DAL;
 namespace YachtMarinaAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240424025137_test2")]
-    partial class test2
+    [Migration("20240602192111_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
